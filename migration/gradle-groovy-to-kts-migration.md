@@ -26,8 +26,16 @@
 
 - 将 settings.gradle 和所有 build.gradle 转换为 .kts 格式
 - 版本配置读取逻辑：
-  - versionCode / versionName：优先从 gradle.properties 读取（properties["VERSION_CODE"].toString().toInt() / properties["VERSION_NAME"].toString()），不存在则从 libs.versions.toml 读取（libs.versions.versionCode.get().toInt() / libs.versions.versionName.get()）
-  - compileSdk / minSdk / targetSdk：固定从 libs.versions.toml 读取（libs.versions.compileSdk.get().toInt() 等）
+  - versionCode / versionName：优先从 gradle.properties 读取，不存在则从 libs.versions.toml 读取
+    ```kotlin
+    // 从 gradle.properties 读取
+    versionCode = properties["VERSION_CODE"].toString().toInt()
+    versionName = properties["VERSION_NAME"].toString()
+    
+    // 从 libs.versions.toml 读取
+    versionCode = libs.versions.versionCode.get().toInt()
+    versionName = libs.versions.versionName.get()
+    ```
 - 迁移后使用 version catalog 语法：依赖用 implementation(libs.xxx)，插件用 alias(libs.plugins.xxx)
 - 保留原有自定义任务和构建逻辑，仅转换语法
 - 迁移完成后运行 ./gradlew build 验证
