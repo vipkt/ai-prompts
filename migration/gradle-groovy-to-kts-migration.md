@@ -27,15 +27,14 @@
 
 - 将 settings.gradle 和所有 build.gradle 转换为 .kts 格式
 - 版本配置读取逻辑：
-  - versionCode / versionName：优先从 gradle.properties 读取，如果存版本定义，在则直接使用：
-    ```kts
+  - versionCode / versionName 优先从 gradle.properties 中读取，如果存在则直接使用：
+    ```kotlin
     // 从 gradle.properties 读取
     versionCode = properties["VERSION_CODE"].toString().toInt()
     versionName = properties["VERSION_NAME"].toString()
     ```
-    如果gradle.properties中不存在版本定义，则在 libs.versions.toml 中进行定义，然后使用：
-    ```kts
-    
+  - 如果 gradle.properties 中不存在版本定义，则在 libs.versions.toml 中进行定义，然后使用：
+    ```kotlin
     // 从 libs.versions.toml 读取
     versionCode = libs.versions.versionCode.get().toInt()
     versionName = libs.versions.versionName.get()
