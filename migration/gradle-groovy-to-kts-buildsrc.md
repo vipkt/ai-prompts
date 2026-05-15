@@ -78,17 +78,21 @@
   ```
 
 - 版本配置读取逻辑：
-  - versionCode / versionName 优先从 gradle.properties 中读取，如果存在则直接使用：
+  - 先读取 gradle.properties 文件，看是否存在版本定义（VERSION_CODE / VERSION_NAME），如果存在（此时 libs.versions.toml 中无需再定义 versionCode / versionName），直接使用：
     ```kotlin
-    // 从 gradle.properties 读取
-    versionCode = properties["VERSION_CODE"].toString().toInt()
-    versionName = properties["VERSION_NAME"].toString()
+     defaultConfig {
+        // 从 gradle.properties 读取
+        versionCode = properties["VERSION_CODE"].toString().toInt()
+        versionName = properties["VERSION_NAME"].toString()
+    }
     ```
   - 如果 gradle.properties 中不存在版本定义，则在 buildSrc 的 Versions.kt 里进行定义然后直接引用：
     ```kotlin
-    // 从 Versions.kt 读取（假设 Versions.kt 里有 versionCode/versionName 字段）
-    versionCode = Versions.versionCode
-    versionName = Versions.versionName
+    defaultConfig {
+      // 从 Versions.kt 读取（假设 Versions.kt 里有 versionCode/versionName 字段）
+      versionCode = Versions.versionCode
+      versionName = Versions.versionName
+    }
     ```
 
 - 迁移后依赖和插件全部通过 Dependencies 和 Plugins 统一方式引用，版本号通过 Versions 管理
