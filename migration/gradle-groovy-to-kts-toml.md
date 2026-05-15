@@ -75,7 +75,7 @@
         versionName = properties["VERSION_NAME"].toString()
     }
     ```
-  - 如果 gradle.properties 中不存在版本定义，则在 libs.versions.toml 中定义，然后引用：
+  - 如果 gradle.properties 中不存在版本定义，则在 libs.versions.toml 中进行定义，然后直接引用：
     ```kotlin
     defaultConfig {
         // 从 libs.versions.toml 读取（假设有 versionCode/versionName 字段）
