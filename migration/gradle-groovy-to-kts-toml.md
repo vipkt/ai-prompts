@@ -67,7 +67,7 @@
   ```
 
 - 版本配置读取逻辑：
-  - versionCode / versionName 先读取 gradle.properties 文件，看是否存在版本定义（VERSION_CODE/VERSION_NAME），如果存在（ 此时 libs.versions.toml 中无需定义再定义 versionCode / versionName），直接使用：
+  - 先读取 gradle.properties 文件，看是否存在版本定义（VERSION_CODE / VERSION_NAME），如果存在（此时 libs.versions.toml 中无需再定义 versionCode / versionName），直接使用：
     ```kotlin
      defaultConfig {
         // 从 gradle.properties 读取
