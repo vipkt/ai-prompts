@@ -11,14 +11,16 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def sorted_md_files(directory: Path) -> list[Path]:
-    return sorted(
-        [
-            path
-            for path in directory.iterdir()
-            if path.is_file() and path.suffix.lower() == ".md" and path.name.lower() != "readme.md"
-        ],
-        key=lambda path: path.name.casefold(),
-    )
+    markdown_files: list[Path] = []
+    for path in directory.iterdir():
+        if not path.is_file():
+            continue
+        if path.suffix.lower() != ".md":
+            continue
+        if path.name.casefold() == "readme.md":
+            continue
+        markdown_files.append(path)
+    return sorted(markdown_files, key=lambda path: path.name.casefold())
 
 
 def fallback_title_from_filename(path: Path) -> str:
@@ -105,10 +107,16 @@ def list_category_dirs() -> list[Path]:
 
 
 def update_subdirectory_readmes() -> None:
+    errors: list[str] = []
     for directory in list_category_dirs():
         readme_path = directory / "README.md"
         links = build_prompt_links(directory, link_from_root=False)
-        update_prompts_block(readme_path, links)
+        try:
+            update_prompts_block(readme_path, links)
+        except (FileNotFoundError, ValueError) as error:
+            errors.append(str(error))
+    if errors:
+        raise RuntimeError("Failed to update some subdirectory README.md files:\n" + "\n".join(errors))
 
 
 def build_root_lines() -> list[str]:
@@ -129,10 +137,8 @@ def build_root_lines() -> list[str]:
         lines.extend(links)
         lines.append("")
 
-    while lines and not lines[-1].strip():
-        lines.pop()
-
-    return lines
+    last_non_empty_index = next((i for i in range(len(lines) - 1, -1, -1) if lines[i].strip()), -1)
+    return lines[: last_non_empty_index + 1] if last_non_empty_index >= 0 else []
 
 
 def main() -> None:
