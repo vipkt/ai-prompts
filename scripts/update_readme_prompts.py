@@ -125,7 +125,7 @@ def build_root_lines() -> list[str]:
 
     root_links = build_prompt_links(ROOT, link_from_root=False)
     if root_links:
-        lines.append("## [Root / 根目录](.)")
+        lines.append("### [Root / 根目录](.)")
         lines.extend(root_links)
         lines.append("")
 
