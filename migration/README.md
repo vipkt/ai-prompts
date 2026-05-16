@@ -1,6 +1,6 @@
 # Migration / 迁移
 
-### Prompts / 提示
+## Prompts / 提示
 
 <!-- prompts start -->
 [Gradle Groovy 转 KTS + buildSrc 版本管理](gradle-groovy-to-kts-buildsrc.md)
