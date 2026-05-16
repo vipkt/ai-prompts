@@ -116,7 +116,8 @@ def update_subdirectory_readmes() -> None:
         except (FileNotFoundError, ValueError) as error:
             errors.append(str(error))
     if errors:
-        raise RuntimeError("Failed to update some subdirectory README.md files:\n" + "\n".join(errors))
+        details = "\n".join(f"- {error}" for error in errors)
+        raise RuntimeError(f"Failed to update some subdirectory README.md files:\n{details}")
 
 
 def build_root_lines() -> list[str]:
@@ -137,8 +138,8 @@ def build_root_lines() -> list[str]:
         lines.extend(links)
         lines.append("")
 
-    last_non_empty_index = next((i for i in range(len(lines) - 1, -1, -1) if lines[i].strip()), -1)
-    return lines[: last_non_empty_index + 1] if last_non_empty_index >= 0 else []
+    end_idx = next((i for i in range(len(lines) - 1, -1, -1) if lines[i].strip()), -1)
+    return lines[: end_idx + 1] if end_idx >= 0 else []
 
 
 def main() -> None:
