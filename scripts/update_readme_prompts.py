@@ -134,7 +134,7 @@ def build_root_lines() -> list[str]:
         links = build_prompt_links(directory, link_from_root=True)
         if not links:
             continue
-        lines.append(f"## [{escape_link_title(category_title(readme_path))}]({directory.name})")
+        lines.append(f"### [{escape_link_title(category_title(readme_path))}]({directory.name})")
         lines.extend(links)
         lines.append("")
 
