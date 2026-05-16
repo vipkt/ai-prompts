@@ -59,7 +59,7 @@ def build_prompt_links(directory: Path, *, link_from_root: bool) -> list[str]:
     for md_file in sorted_md_files(directory):
         title = escape_link_title(extract_title(md_file))
         target = f"{directory.name}/{md_file.name}" if link_from_root else md_file.name
-        links.append(f"#### [{title}]({target})")
+        links.append(f"- [{title}]({target})")
     return links
 
 
